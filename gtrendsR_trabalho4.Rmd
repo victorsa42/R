@@ -1,0 +1,81 @@
+---
+title: "gtrendsR_trabalho4"
+author: "victor soares"
+date: "2022-10-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("gtrendsR")
+library(gtrendsR)
+library(ggplot2)
+library(dplyr)
+```
+
+Escolhi o tema de senhor dos anéis, Os senhor dos anéis é possivelmente a maior obra de fantasia já feita em influência e em sucesso e recentemente está sendo exibida uma nova série sobre esse universo, por isso eu gostaria de entender como essa nova produção está sendo recebida uma vez que possui grandes competidores como a série de game of thrones de tema similar e com as polêmicas envolvendo a série
+
+```{r}
+ldr <- gtrends(c("senhor dos aneis"), geo = c("BR"), time = "all")
+plot(senhor)
+```
+
+Podemos ver que mesmo no inicio do google trends em 2004, no ano seguinte a estreia do último filme da trilogia aclamada do cinema, a marca ainda estava em seu período mais forte, a relevância volta a crescer em 2013 a 2015 com os lançamentos da trilogia do hobbit que foi superada pela nova série
+
+```{r}
+time_trend=ldr$interest_over_time
+plot<-ggplot(data=time_trend, aes(x=date, y=hits,group=keyword,col=keyword))+
+        geom_line()+xlab('Tempo')+ylab('Interesse relativo')+ theme_bw()+
+        theme(legend.title = element_blank(),legend.position="bottom",legend.text=element_text(size=12))+ggtitle("Volume de Busca no Google")
+plot
+```
+
+```{r}
+ldr2 <- gtrends(c("senhor dos aneis"), geo = c("BR"), time = "2022-01-01 2022-10-05")
+plot(ldr2)
+```
+
+nota-se que as pesquisas sobre o assunto aumentaram muito quando a série começa a ser mais presente e tem o início de sua exibição mas tem uma queda mesmo sem ter o termino da primeira temporada, indicando uma má recepção do público por exemplo
+
+```{r}
+ldr3 <- gtrends(c("senhor dos aneis"), geo = c("BR"), time = "2012-06-01 2012-12-30")
+plot(ldr3)
+```
+
+Já a recepção do O hobbit, o primeiro filme da segunda trilogia passado em um período similar de 6 meses antes da sua estreia, possui uma grande oscilação e um valor menor e mais espalhado se comparado com a série atual
+
+```{r}
+ldr4 <- gtrends(c("lord of the rings"), geo = c("US"), time = "2022-01-01 2022-10-05")
+plot(ldr4)
+```
+
+```{r}
+ldr5 <- gtrends(c("lord of the rings"), geo = c("US"), time = "2012-06-01 2012-12-30")
+plot(ldr5)
+```
+
+essa percepção é comparável com outros países como por exemplo os estados unidos, onde apesar de diferentes os gráficos têm muitas semelhanças
+
+```{r}
+series =  gtrends(c("senhor dos aneis", "game of thrones"), geo = c("BR"), time = 'all')
+plot(series)
+```
+
+Já comparando com outra produção de livros e série temos que apesar de se esperar uma influência e relevância muito maior do universo de senhor dos anéis a série da emissora de tv HBO foi um sucesso tão contundente que mostra ser "mais" popular que sua "predecessora" senhor dos anéis, também podemos ver os picos de procura para cada temporada de game of thrones.
+
+```{r}
+series2 =  gtrends(c("lord of the rings", "game of thrones"), geo = c("US"), time = 'all')
+plot(series2)
+```
+
+mais uma vez a diferença geográfica não é uma fator tão representativo exceto por alguns pequenos pontos, como a série de game of thrones ter uma última temporada com mais relevância nos US do que no Brasil
+
+```{r}
+influencia =  gtrends(c("The Silmarillion", "game of thrones fire and blood"), geo = c("US"), time = 'all')
+plot(influencia)
+```
+
+por fim podemos ver o impacto que tais obras possuem em trazer o público das séries e dos filmes para buscar mais sobre livros específicos de cada universo, como o Silmarillion de senhor dos anéis e fire and blood de GOT

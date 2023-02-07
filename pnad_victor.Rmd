@@ -1,0 +1,53 @@
+---
+title: "pnad_victor"
+author: "Victor Soares"
+date: "2022-11-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+```{r}
+#install.packages('tidyverse')
+install.packages('srvyr')
+#install.packages('dplyr')
+library(dplyr)
+library(tidyverse) # manipulação de dados
+library(srvyr) #trabalha com amostras complexas - lembre-se de instalar o pacote
+library(readr) #carregar dados no R
+library(readxl) #carregar dados do excel
+```
+
+```{r}
+pnad_covid <- read_csv("PNAD_COVID_112020.csv", col_types = cols(.default = "d"))
+```
+
+```{r}
+## IMPORTANTE:  VC DEVE ALTERAR O ENDEREÇO DO DIRETÓRIO PARA O SEU. 
+estados <- read_xls(
+  "Dicionario_PNAD_COVID_112020.xls", 
+  sheet = "dicionário pnad covid",
+  skip = 4, n_max = 27
+) %>%
+  select(UF = ...5, estado = ...6)
+
+pnad <- pnad_covid %>%
+  left_join(estados, by = "UF")
+
+```
+
+
+```{r}
+# colocando Pesos e filtrando o município de São Paulo
+pnad_pesos <- pnad_covid %>% as_survey_design(ids = UPA, strata = Estrato, weights = V1032, nest = TRUE) %>%
+  filter(UF == "35")
+```
+
+
+
