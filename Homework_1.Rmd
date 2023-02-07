@@ -1,0 +1,156 @@
+---
+title: "Homework_1"
+author: "Victor Soares"
+output:
+  html_document: default
+  pdf_document: default
+date: '2022-07-14'
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r install, include=FALSE}
+#install.packages('knitr')
+#install.packages("rmarkdown")
+#install.packages("dplyr")
+#install.packages("tidyverse")
+#install.packages("caTools1.14")
+
+library(knitr)
+library(rmarkdown)
+library(dplyr)
+#library(tidyverse)
+#library(caTools1.14)
+
+setwd("~/Documentos/ufscar/livros/aciepe R")
+```
+
+Questôes: 1) Fa¸ca algumas operações matemáticas com os operadores
+listados na aula 1. Escolha pelo menos três operadores distintos. Fa¸ca
+também 3 combinações distintas entre os operadores.
+
+    5*5
+    2^(2)
+    log(exp(1))
+
+Fazendo a combinação dos operadores temos:
+
+    5*5^(log(1))
+    log(5*2^(4))
+    5^(log(5*0.2))
+
+2)  Suponha que um pesquisador tenha criado o pacote chamado Brasil. Que
+    comando você utilizaria para instalar tal pacote? Que comando você
+    utilizaria para carregar tal pacote? Suponha que dentro deste pacote
+    Brasil tenha a função SP. Como você acabou de instalar este pacote,
+    ainda não está familiarizado com os termos desta nova função. De que
+    forma você poderia descobrir como utilizar este comando dentro do R?
+    E fora do R?(Você pode fazer uma pesquisa para responder essa
+    questão).
+
+resp: usaria o install.packages("Brasil") e o library(Brasil) para
+carrega-lo, podemos descobrir o que os pacotes fazem dentro do R
+utilizando o comando help(package = 'Brasil') ou procurando no site do
+proprio pacote na internet.
+
+3)  Como é possível criar um chunk de código no R markdown? Quais as
+    opções para usar knit? (Faça uma pesquisa para responder essa
+    questão, ou use o card Rmarkdown disponibilizado no AVA - Moodle).
+
+resp: se utiliza um chuck escrevendo o codigo entre (\`\`\`) três
+apostrofes no inicio e no final
+
+4)  Teste qual a diferença entre criar um vetor usando a função c() e
+    c("").
+
+<!-- -->
+
+    v1=c(1,2,3)
+    v2=c("1""2""3")
+    v1
+    v2
+
+5)  Crie um vetor de todos números inteiros maiores do que 1 e menores
+    do que 1000. Em seguida, crie um vetor com as mesmas
+    características, contendo apenas números pares. Dica: obviamente não
+    espero que você digite elemento por elemento.
+
+<!-- -->
+
+    #podemos fazer usando :
+    vec1=1:1000
+    vec1
+
+    #mas também podemos fazer usando o comando seq
+    vec2=seq(from=1,to=1000,by=1)
+    vec2
+
+    #ou usando o comprimento do vetor de modo que fique 
+    vec3=seq(from=1,to=10^3,length.out=1000)
+    vec3
+    #o termo "to=" funciona com parenteses e sem 
+
+6)  Calcule o número de ouro no R. Dica: o número de ouro é dado pela
+    expressão: 1+√5/2
+
+resp:
+
+    n_ouro= (1+sqrt(5))/2
+    n_ouro
+
+7)  Qual o resultado da divisão de 1 por 0 no R? E de -1 por 0?
+
+resp: as divisões dão respectivamente infinito e menos infinito
+
+    1/0
+    -1/0
+
+8)  Verifique quais as diferenças entre NaN, NULL, NA e Inf? Digite
+    expressões que retornem cada um desses resultados.
+
+<!-- -->
+
+    #NaN
+    0/0
+    #NULL
+    c()
+    #NA
+    A=c(3,4,1,1)
+    A[5]
+    #Inf (I tem que ser maiusculo)
+    1/0
+
+9)  Verifique o que retorna a expressão 5 + 3 \* 10 %/%3 == 15 retorna
+    no R. Faça a expressão retornar o valor contrário apenas usando
+    parênteses - ou seja, se a expressão retornar originariamente TRUE,
+    fa¸ca retornar FALSE. Explique o que faz a expressão original.
+
+<!-- -->
+
+    5 + 3 * 10 %/%3 == 15
+    5 + 3 * 10 %/%3 == 14
+
+    # a igualdade inicialmente retorna FALSO mas se mudarmos para 14 ela retorna TRUE
+
+10) Escreva um loop que itere os números de 1 a 7 e imprima o cubo de
+    cada número, usando print().
+
+<!-- -->
+
+    for(i in 1:7){
+      print(i)
+    }
+
+11) Verifique qual é o seu atual diretório de trabalho com o comando
+    getwd(). Lembre-se que para mudar o diretório, você deve usar
+    setwd("caminho da pasta escolhida").
+
+<!-- -->
+
+    getwd()
+    #"/home/vsa/Documentos/ufscar/livros/aciepe R"

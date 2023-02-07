@@ -1,0 +1,346 @@
+---
+title: "Homehork 2"
+author: "victor soares"
+date: '2022-07-21'
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax
+for authoring HTML, PDF, and MS Word documents. For more details on
+using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that
+includes both content as well as the output of any embedded R code
+chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to
+prevent printing of the R code that generated the plot.
+
+```{r}
+install.packages("ggplot2")
+library(ggplot2)
+
+data(USArrests)
+mydata = USArrests
+dim(mydata)
+head(mydata)
+
+```
+
+agora para montar os gráficos e responder as questões:
+
+1)  Utilizando o conjunto de dados USArrests descrito na aula, construa
+    um histograma para cada uma das variáveis contida nesse banco de
+    dados. Use uma cor diferente para cada histograma. Construa também
+    box-plots para cada uma das variáveis, com as mesmas cores usadas no
+    histograma.
+
+```{r}
+library(ggplot2)
+
+g1 = ggplot(data = mydata) +
+geom_histogram(aes(x=Murder),fill="blue")
+g1
+
+g2 = ggplot(data = mydata) +
+geom_histogram(aes(x=Assault),fill="red")
+g2
+
+g3 = ggplot(mydata)+
+geom_histogram(aes(x=UrbanPop),fill="green")
+g3
+
+g4 = ggplot(mydata)+
+geom_histogram(aes(x=Rape),fill="gray")
+g4
+ 
+b1 = ggplot(mydata)+
+geom_boxplot(aes(x=1,y=Murder), fill="blue")
+b1
+ 
+b2 = ggplot(mydata)+
+geom_boxplot(aes(x=1,y=Assault),fill="red")
+b2
+
+b3 = ggplot(mydata)+
+geom_boxplot(aes(x=1,y=UrbanPop),fill="green")
+b3
+ 
+b4 = ggplot(mydata)+
+geom_boxplot(aes(x=1,y=Rape),fill="gray")
+b4
+
+grid.arrange(g1, b1, g2, b2, g3, b3, g4, b4, ncol=2)
+```
+
+2)  Escolha duas variáveis do banco de dados para fazer um diagrama de
+    dispersão (scatterplot), usando geom point. Acrescente uma linha
+    relacionando as duas variáveis para ajudar na interpretação.
+    Descreva o fenômeno que você quer analisar com esse diagrama.
+
+```{r}
+library(ggplot2)
+
+g5<-ggplot(mydata,aes(x=Murder,y=Rape)) +
+geom_point()+geom_smooth(method = "lm")
+g5
+```
+
+Pode se ver que o numero de assasinatos esta junto do numero de estupros
+no sentido que cidades com mais assassinatos também socorrem mais
+estupros, no entanto essa não é uma correlação direta uma vez que boa
+parte dos dados é disperso.
+
+3)  Utilizando a funçãoo data() do R, escolha um conjunto de dados de
+    sua preferência e crie 4 gráficos, a sua escolha, usando as
+    variáveis deste banco de dados. Faça uma breve interpretaçãoo de
+    seus achados.
+
+```{r}
+library(ggplot2)
+
+g6<-ggplot(mydata,aes(x=UrbanPop,y=Rape))+ 
+geom_point() + geom_smooth(method="lm")
+g6
+
+g7<-ggplot(mydata,aes(x=UrbanPop,y=Murder))+
+geom_point() + geom_smooth(method="lm")
+g7
+
+g8<-ggplot(mydata,aes(x=UrbanPop,y=Assault)) + 
+geom_point() + geom_smooth(method="lm")
+g8
+
+g9 = ggplot(mydata)+
+geom_histogram(mapping = aes(x = Assault), fill ='blue') +
+labs(x = 'Assaltos',
+y = 'Frequencia',
+title = 'Assaltos em Estados Americanos')
+g9
+```
+
+Pelo gráfico podemos ver que os crimes de assalto, assassinato e estupro
+tendem a crescer com um maior numero de população urbana mas isso não é
+uma correlação direta uma vez que os dados se tornão muito dispersos nos
+tres graficos, ja a frequencia de assaltos tender a ter cidades com
+varias ocorrencias e cidades com "poucas" ocorrencias o que demostra o
+que os dados tentam comparar, cidades com muita e poucas ocorrecias
+
+4)  Considerando o banco de dados utilizado no exerc´ıcio anterior,
+    escolha duas vari´aveis para analisar via diagrama de dispers˜ao.
+    Comente brevemente seus achados.
+
+```{r}
+library(ggplot2)
+
+g10<-ggplot(mydata,aes(x=UrbanPop,y=Murder))+ 
+geom_point() + geom_smooth(method="lm")
+g10
+
+g11<-ggplot(mydata,aes(x=Assault,y=Murder))+ 
+geom_point() + geom_smooth(method="lm")
+g11
+
+```
+
+Mais uma vez podemos ver que não nescessariamente o numero de
+assassinatos tende a ser quase constante em relação ao população mas
+podemos ver um almento direto de assaltos e assassinatos
+
+5)  Utilize o comando ?mpg e descreva as vari´aveis contidas neste banco
+    de dados. Fa¸ca uma an´alise preliminar deste banco de dados usando
+    os comando head, tail, etc (como fizemos para USArrests).
+
+```{r}
+data("mpg")
+head(mpg)
+
+tail(mpg)
+
+names(mpg)
+
+summary(mpg)
+```
+
+6)  Fa¸ca um gr´afico de dispers˜ao entre as vari´aveis hwy e cyl. Mude
+    a cor do tema. Interprete os resultados.
+
+```{r}
+library(ggplot2)
+g12 <- ggplot(data=mpg) + geom_point(aes(x=hwy,y=cyl)) + 
+theme_linedraw()
+g12
+
+```
+
+7)  Escoha duas vari´aveis do banco de dados e construa histograma e
+    box-plot para elas. Personalize os gr´aficos usando cores diferentes
+    do default. N˜ao se esque¸ca de dar nomes para os eixos, bem como um
+    t´ıtulo para os gr´aficos. Organize os gr´aficos em subplots usando
+    gride.arrange(). Note que teremos 2 histogramas e 2 boxplots,
+    totalizando 4 gr´aficos que vc deve plotar em duas colunas.
+
+```{r}
+#install.packages("gridExtra")
+library(ggplot2)
+library(gridExtra)
+
+g13<- ggplot(mpg) + 
+geom_histogram(mapping=aes(cty), fill ='blue')
+
+g14<- ggplot(mpg) + 
+geom_histogram(mapping=aes(hwy), fill ='red')
+
+g15<- ggplot(mpg) + geom_boxplot(mapping = aes(x = 1, y = cty), fill ='blue')
+
+g16<- ggplot(mpg) + geom_boxplot(mapping = aes(x = 1, y = hwy), fill ='red')
+
+grid.arrange(g13,g15,g14,g16,ncol=2)
+```
+
+8)  Usando o arquivo de dados mpg ainda, vamos agora treinar o uso do
+    recurso facet.
+
+```{=html}
+<!-- -->
+```
+a.  Fa¸ca gr´aficos de dispers˜ao entre displ e hwy separados para cada
+    classe de ve´ıculos. Use color = class para diferenciar por cor e
+    facet wrap( ∼ class, nrow=2) para obter os subplots.
+b.  Agora vamos criar subplots com base em duas vari´aveis: n´umero de
+    cilindros (cyl) e tipo de dire¸c˜ao (drv). Diferencie por cor usando
+    color=drv e utilize facet grid(drv ∼ cyl). Algumas facetas ficar˜ao
+    vazias por n˜ao possu´ırem combina¸c˜oes de drv e cyl.
+c.  Explique o que ocorre se vocˆe usar color=cyl para classifcar por
+    cilindros (cyl) e facet grid(. ∼ cyl)
+
+```{=html}
+<!-- -->
+```
+a)  
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+
+g17a<- ggplot(mpg) + 
+geom_point(aes(x=displ,y=hwy,color=class)) + facet_wrap(~class,nrow=2)
+g17a
+```
+
+b)  
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+
+g17b<- ggplot(mpg) + 
+geom_point(aes(x=displ,y=hwy, color=drv)) + facet_grid(cyl~drv)
+g17b
+```
+
+c)  
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+
+g17c <- ggplot(mpg) + 
+geom_point(aes(x=displ,y=hwy,color=cyl)) + facet_grid(.~cyl)
+g17c
+
+g17d <- ggplot(mpg) + 
+geom_point(aes(x=displ,y=hwy, color=cyl)) + facet_wrap(~cyl)
+g17d
+```
+
+color=cyl plota todos os gráficos em uma linha somente, já facet_wrap()
+organiza o gráfico em linhas e colunas.
+
+9)  Corrup¸c˜ao x desenvolvimento humano Para realizar este exerc´ıcio,
+    usaremos um banco de dados disponibilizado na p´agina do nosso curso
+    (homework3.xls). Para carregar este conjunto de dados no R, execute
+    os seguintes comandos: library(readxl) homework2 = read
+    excel("homework2.xlsx") Lembre-se de salvar o arquivo na pasta usada
+    como diret´orio do R. Os dados dizem respeito basicamente ao ´ındice
+    de desenvolvimento humano (HDI) e percep¸c˜ao da corrup¸c˜ao (CPI) a
+    Construa um diagrama de dispers˜ao entre as vari´aveis CPI (eixo x)
+    e HDI (eixo y). Coloque a cor vermelha nos pontos. b Agora
+    diferencie a cor dos pontos por regi˜ao. c Fa¸ca um gr´afico com
+    pontos maiores (size =3). d Fa¸ca um gr´afico em que o tamanho dos
+    pontos dependa da vari´avel HDI. e Inclua nomes nos eixos x e y, um
+    t´ıtulo para o seu gr´afico bem como legendas que julgar
+    necess´arias. f Desafio O gr´afico abaixo foi publicado na revista
+    The Economist e utiliza os dados contidos no arquivo que estamos
+    usando. Escreva um c´odigo no R usando ggplot que replica t˜ao
+    pr´oximo quanto poss´ıvel o gr´afico em quest˜ao.
+
+```{r}
+library(readxl)
+dados=read_excel("~/Documentos/ufscar/livros/aciepe R/homework2.xlsx")
+dados$Region=as.factor(dados$Region)
+dados$CPI=as.numeric(dados$CPI)
+dados$HDI=as.numeric(dados$HDI)
+
+#a)
+ga <- ggplot(dados,aes(x=CPI,y=HDI)) + 
+geom_point(aes(color="red"))
+ga
+
+#b)
+gb <- ggplot(dados,aes(x=CPI,y=HDI)) + 
+geom_point(aes(color=Region))
+gb
+
+#c)
+gc <- ggplot(dados,aes(x=CPI,y=HDI)) + 
+geom_point(aes(color=Region),size=3)
+gc
+
+#d)
+gd <- ggplot(dados,aes(x=CPI,y=HDI)) + 
+geom_point(aes(color=Region),size=7*dados$HDI)
+gd
+
+#e)
+ge <- ggplot(dados,aes(x=CPI,y=HDI)) + 
+geom_point(shape=21,aes(color=Region),fill= "white" ,size=3) + 
+labs(title="Corruption and human development",caption="Sources: Transparency International; UN Human Development Report",x="Corruptions Perceptions Index, 2011 (10=least corrupt)",y="Human Development Index, 2011 (1=best)")
+ge
+
+#f)
+gf <- ggplot(dados,aes(x=CPI,y=HDI)) + 
+geom_point(shape=21,aes(color=Region),fill= "white" ,size=3) +
+geom_smooth(se=FALSE, formula= "y~sqrt(x)", color= "red",size=0.5) +
+scale_color_manual("", values = c("dark blue","blue", "light blue","cyan","red","brown"),
+labels = c("OECD","Americas", "Asia & Oceania","Central & Eastern Europe","Middle East & North Africa","Sub-Saharan Africa")) + 
+labs(title="Corruption and human development",caption="Sources: Transparency International; UN Human Development Report",x="Corruptions Perceptions Index, 2011 (10=least corrupt)",y="Human Development Index, 2011 (1=best)") +
+theme_linedraw() + 
+theme(legend.position ="top",plot.title =element_text(face="bold"),axis.title.x = element_text(face = "italic", size=10),axis.title.y = element_text(face="italic", size=10),plot.caption=element_text(hjust=0)) + 
+scale_y_continuous(limits=c(0.2,1),breaks=seq(0,10,0.1),minor_breaks = NULL) + 
+scale_x_continuous(limits=c(1,10),breaks=seq(1,10,1), minor_breaks = NULL) + 
+theme(panel.grid.major.x = element_blank())
+gf
+
+```

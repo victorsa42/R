@@ -1,0 +1,111 @@
+---
+title: "Trabalho_3"
+author: "victor soares"
+date: '2022-08-13'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r}
+install.packages('nycflights13')
+library(nycflights13)
+library(dplyr)
+```
+```{r}
+nycflights13::flights
+```
+
+```{r}
+str(flights)
+```
+
+Questões:
+
+1)Utilizando o mesmo conjunto de dados para flights usado na aula, encontre todos os voos que:
+
+a) Tiveram um atraso na chegada (arrival) de duas horas ou mais.
+```{r}
+filter(flights, arr_delay >= 120)
+```
+b) Voaram com destino a Houston (IAH ou HOU)
+```{r}
+filter(flights, dest == "IAH" | dest == "HOU")
+
+```
+c) Foram realizados pelas companhias a´ereas United, American ou Delta Airlines.
+
+UA -> United
+AA -> America 
+DL -> Delta Airlines.
+```{r}
+filter(flights, carrier %in% c("UA", "AA", "DL"))
+```
+
+d) Partiram no ver˜ao (julho, agosto e setembro).
+```{r}
+filter(flights, month %in% c(7,8,9))
+```
+e) N˜ao partiram atrasados, por´em chegaram com mais de duas horas de atraso
+ao destino.
+```{r}
+filter(flights, arr_delay >= 120 & dep_delay == 0)
+```
+f) Partiram entre meia noite e 6 h da manh˜a (inclusive).
+```{r}
+filter(flights, dep_time <= (6*60))
+```
+2. Classifique os vˆoos para encontrar os vˆoos mais atrasados.
+```{r}
+arrange(flights, desc(dep_delay))
+```
+
+
+3. Classifique os vˆoos de forma a encontrar os mais r´apidos (velocidade mais alta).
+```{r}
+arrange(flights, desc(distance %/% air_time))
+```
+
+
+4. O que acontece se vocˆe incluir o nome de uma vari´avel v´arias vezes dentro de select()?
+```{r}
+select(flights, dep_time, dep_time, dep_time)
+```
+
+
+5. Encontre os 10 voos mais atrados usando arrange() e a função min rank(). Leia a documentação de min rank() para aprender sobre ele.
+```{r}
+head(arrange(flights,desc(min_rank(flights$dep_delay))), 10)
+```
+
+
+6. Usando mutate() crie uma coluna com a média da variável tempo em ar (air time).
+```{r}
+mutate(flights, velocidade_media = distance/ air_time)
+
+```
+
+
